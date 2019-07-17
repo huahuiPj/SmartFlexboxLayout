@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SmartFlexboxLayout">
+        <attr name="default_color" format="color|reference"/>
+        <attr name="selected_textColor" format="color|reference"/>
+        <attr name="default_drawable" format="reference"/>
+        <attr name="selected_drawable" format="reference"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="max_num" format="integer"/>
+        <attr name="checked_enable" format="boolean"/>
+        <attr name="mode">
+            <enum name="Mulit" value="0"/>
+            <enum name="Singer" value="1"/>
+        </attr>
+    </declare-styleable>
+</resources>
