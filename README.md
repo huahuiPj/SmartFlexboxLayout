@@ -11,7 +11,7 @@
 
 # 效果图
 
-    <img src="./picture_20190718174448.jpg" width="480px"/>
+    ![image](https://github.com/huahuiPj/SmartFlexboxLayout/blob/master/img/picture_20190718174448.jpg)
 
 # 如何使用
 
