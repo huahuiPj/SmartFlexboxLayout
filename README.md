@@ -11,7 +11,7 @@
 
 # 效果图
 
-    ![Alt text](https://github.com/huahuiPj/SmartFlexboxLayout/blob/master/img/picture_20190718174448.jpg)
+    ![Image text](https://github.com/huahuiPj/SmartFlexboxLayout/blob/master/img/picture_20190718174448.jpg)
 
 # 如何使用
 
