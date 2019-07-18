@@ -9,10 +9,11 @@
 5、支持设置预选列表 setSelectedData(List<Integer>)
 6、支持获取选中数据的列表 getSelectedData()
 
-#如何使用
+# 如何使用
 
 添加Gradle依赖
 1.先在项目根目录的 build.gradle 的 repositories 添加:
+
   allprojects {
       repositories {
         ...
@@ -21,6 +22,7 @@
   }
 
 2、然后在dependencies添加：
+
     dependencies {
       ...
       //目前只支持AndroidX
@@ -76,6 +78,7 @@
     ⑧max_num 多选时生效 最大选择数量
 
 5、事件 - 选择标签时的回调
+
     mSmartFlexboxLayout_Mulit.setListener(new setOnItemClickListener() {
         @Override
         public void onItemClick(View view, int position, boolean isCheck) {
