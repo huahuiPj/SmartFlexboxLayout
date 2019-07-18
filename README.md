@@ -11,8 +11,8 @@
 
 # 如何使用
 
-添加Gradle依赖<br/>
-1.先在项目根目录的 build.gradle 的 repositories 添加:<br/>
+## 添加Gradle依赖<br/>
+### 1.先在项目根目录的 build.gradle 的 repositories 添加:<br/>
 
     allprojects {
       repositories {
@@ -21,7 +21,7 @@
       }
     }
 
-2、然后在dependencies添加：
+### 2、然后在dependencies添加：
 
     dependencies {
       ...
@@ -32,7 +32,7 @@
       implementation 'androidx.recyclerview:recyclerview:1.0.0'
     }
 
-3、布局文件中声明：
+### 3、布局文件中声明：
 
     多选布局：
     <com.chh.flexboxlayoututils.widget.SmartFlexboxLayout
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             app:checked_enable="false"/>
 
-4、支持属性：<br/>
+### 4、支持属性：<br/>
     ①default_color  默认时的字体颜色<br/>
     ②selected_textColor 选中时的字体颜色<br/>
     ③default_drawable 默认时样式<br/>
@@ -78,7 +78,7 @@
     ⑦mode 选择类型  单选：Single    多选：Mulit<br/>
     ⑧max_num 多选时生效 最大选择数量<br/>
 
-5、事件 - 选择标签时的回调
+### 5、事件 - 选择标签时的回调
 
     mSmartFlexboxLayout_Mulit.setListener(new setOnItemClickListener() {
         @Override
@@ -87,16 +87,16 @@
         }
     });
 
-6、获取选中的标签数据列表
+### 6、获取选中的标签数据列表
     List<String> selectedData = mSmartFlexboxLayout_Mulit.getSelectedData();
 
-7、预先设置选中列表
+### 7、预先设置选中列表
     mSmartFlexboxLayout_Mulit.setSelectedData(List<Integer>);
 
-8、数据传入
+### 8、数据传入
     mSmartFlexboxLayout_Mulit.setData(Context,List<String>);
 
-9、支持条目布局传入
+### 9、支持条目布局传入
     mSmartFlexboxLayout_onlyShow.setData(Context,layoutRes,List<String>);
 
 注意：自定义条目布局时，根布局为TextView ，如下所示：
@@ -120,7 +120,7 @@
 
 
 
-#几种方式使用展示
+# 几种方式使用展示
 
     //多选
     final SmartFlexboxLayout mSmartFlexboxLayout_Mulit = findViewById(R.id.mSmartFlexboxLayout_Mulit);
