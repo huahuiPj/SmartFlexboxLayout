@@ -69,14 +69,14 @@
             app:checked_enable="false"/>
 
 ### 4、支持属性：<br/>
-    ①default_color  默认时的字体颜色<br/>
-    ②selected_textColor 选中时的字体颜色<br/>
-    ③default_drawable 默认时样式<br/>
-    ④selected_drawable 选中时的样式<br/>
-    ⑤text_size 字体大小<br/>
-    ⑥checked_enable 设置是否可以选中<br/>
-    ⑦mode 选择类型  单选：Single    多选：Mulit<br/>
-    ⑧max_num 多选时生效 最大选择数量<br/>
+        default_color        默认时的字体颜色
+        selected_textColor   选中时的字体颜色
+        default_drawable     默认时样式
+        selected_drawable    选中时的样式
+        text_size            字体大小
+        checked_enable       设置是否可以选中
+        mode                 选择类型  单选：Single    多选：Mulit
+        max_num              多选时生效 最大选择数量
 
 ### 5、事件 - 选择标签时的回调
 
