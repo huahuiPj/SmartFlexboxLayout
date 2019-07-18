@@ -4,18 +4,24 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.widget.FrameLayout;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chh.flexboxlayoututils.R;
 import com.chh.flexboxlayoututils.adapter.FlexboxLayoutAdapter;
-import com.google.android.flexbox.FlexboxLayout;
+import com.chh.flexboxlayoututils.interfaces.setOnItemClickListener;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SmartFlexboxLayout extends FlexboxLayout {
-    private Context context;
+public class SmartFlexboxLayout extends FrameLayout {
     //可选的最大数量
     private int maxSelection ;
     //选择模式
@@ -24,6 +30,8 @@ public class SmartFlexboxLayout extends FlexboxLayout {
     public static final int MulitModel = 0;
     //单选模式
     public static final int SingelModel = 1;
+    //字体大小
+    private float textsize;
     //默认字体颜色
     private int defaultTextColor;
     //选中时的字体颜色
@@ -32,44 +40,80 @@ public class SmartFlexboxLayout extends FlexboxLayout {
     private int defauleDrawable;
     //选中时的样式
     private int selectedDrawable;
-
-    public SmartFlexboxLayout(Context context) {
+    //设置是否可以选中
+    private boolean checkEnable;
+    public SmartFlexboxLayout(@NonNull Context context) {
         this(context,null);
-        this.context = context;
     }
 
-    public SmartFlexboxLayout(Context context, AttributeSet attrs) {
+    public SmartFlexboxLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs,0);
-        this.context = context;
     }
 
-    public SmartFlexboxLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public SmartFlexboxLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SmartFlexboxLayout);
         maxSelection = typedArray.getInt(R.styleable.SmartFlexboxLayout_max_num,0);
-        SelectModel = typedArray.getInt(R.styleable.SmartFlexboxLayout_mode,MulitModel);
+        SelectModel = typedArray.getInt(R.styleable.SmartFlexboxLayout_mode,maxSelection==MulitModel?-1:(maxSelection==SingelModel?SingelModel:MulitModel));
         defaultTextColor = typedArray.getColor(R.styleable.SmartFlexboxLayout_default_color,0);
         selectedTextColor = typedArray.getColor(R.styleable.SmartFlexboxLayout_selected_textColor,0);
         defauleDrawable = typedArray.getResourceId(R.styleable.SmartFlexboxLayout_default_drawable,0);
         selectedDrawable = typedArray.getResourceId(R.styleable.SmartFlexboxLayout_selected_drawable,0);
+        textsize = typedArray.getDimensionPixelSize(R.styleable.SmartFlexboxLayout_text_size,0);
+        checkEnable = typedArray.getBoolean(R.styleable.SmartFlexboxLayout_checked_enable,SelectModel==-1?false:true);
+
         Log.d("chh","maxSelection:"+maxSelection+" SelectModel:"+SelectModel);
         typedArray.recycle();
     }
 
-    private  FlexboxLayoutAdapter flexboxLayoutAdapter;
-    public void setResData(int res){
+    //设置控件adapter
+    private FlexboxLayoutAdapter flexboxLayoutAdapter;
+    public void setRes(Context context,int res){
         RecyclerView recyclerView = new RecyclerView(context);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        this.addView(recyclerView);
+        FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(context);
+        layoutManager.setFlexDirection(FlexDirection.ROW);
+        layoutManager.setFlexWrap(FlexWrap.WRAP);
+        layoutManager.setAlignItems(AlignItems.STRETCH);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setOverScrollMode(OVER_SCROLL_NEVER);
+
         flexboxLayoutAdapter = new FlexboxLayoutAdapter(context, res);
-//        flexboxLayoutAdapter.setFlexboxLayoutView(this);
+        flexboxLayoutAdapter.setFlexboxLayoutView(this);
         recyclerView.setAdapter(flexboxLayoutAdapter);
     }
 
-    public void setData(List<String> data){
+    //设置data
+    public void setData(Context context,int res,List<String> data){
+        setRes(context,res);
         if (flexboxLayoutAdapter!=null) {
             flexboxLayoutAdapter.setDataList(data);
         }
+    }
+
+    //设置data and layout
+    public void setData(Context context,List<String> data){
+        setRes(context,R.layout.item_view);
+        if (flexboxLayoutAdapter!=null) {
+            flexboxLayoutAdapter.setDataList(data);
+        }
+    }
+
+    //点击监听
+    public void setListener(setOnItemClickListener clickListener){
+        flexboxLayoutAdapter.setListener(clickListener);
+    }
+
+    //设置选中数据
+    public void setSelectedData(List<Integer> list){
+        if (list!=null&&list.size()>0) {
+            flexboxLayoutAdapter.setSelectedData(list);
+        }
+    }
+
+    //获取选中数据的集合
+    public List<String> getSelectedData(){
+        return flexboxLayoutAdapter!=null?flexboxLayoutAdapter.getSelectedData():new ArrayList<String>();
     }
 
     public int getMaxSelection() {
@@ -119,4 +163,21 @@ public class SmartFlexboxLayout extends FlexboxLayout {
     public void setSelectedDrawable(int selectedDrawable) {
         this.selectedDrawable = selectedDrawable;
     }
+
+    public float getTextsize() {
+        return textsize;
+    }
+
+    public void setTextsize(float textsize) {
+        this.textsize = textsize;
+    }
+
+    public boolean isCheckEnable() {
+        return checkEnable;
+    }
+
+    public void setCheckEnable(boolean checkEnable) {
+        this.checkEnable = checkEnable;
+    }
+
 }

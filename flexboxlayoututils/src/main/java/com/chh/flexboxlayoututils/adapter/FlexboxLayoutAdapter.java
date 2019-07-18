@@ -6,17 +6,13 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chh.flexboxlayoututils.R;
 import com.chh.flexboxlayoututils.interfaces.setOnItemClickListener;
-import com.chh.flexboxlayoututils.widget.FlowLayout;
+import com.chh.flexboxlayoututils.widget.SmartFlexboxLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,12 +46,34 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
         if(data!=null&&data.size()>0){
             ((MyViewHolder) holder).mTextItems.setText(data.get(position));
-            ((MyViewHolder) holder).mTextItems.setTextColor(defaultTextColor);
-            ((MyViewHolder) holder).mTextItems.setBackgroundResource(defauleDrawable);
+            if(defaultTextColor!=0){
+                ((MyViewHolder) holder).mTextItems.setTextColor(defaultTextColor);
+            }
+            if(defauleDrawable!=0){
+                ((MyViewHolder) holder).mTextItems.setBackgroundResource(defauleDrawable);
+            }
             if(textsize!=0){
                 ((MyViewHolder) holder).mTextItems.setTextSize(TypedValue.COMPLEX_UNIT_PX,textsize);
             }
             sMap.put(position,false);
+            if (SelectModel == MulitModel) {
+                if (selectedMap.containsKey(position)){
+                    sMap.put(position, true);
+                    ((MyViewHolder) holder).mTextItems.setTextColor(selectedTextColor);
+                    ((MyViewHolder) holder).mTextItems.setBackgroundResource(selectedDrawable);
+                }
+            }else if(SelectModel == SingelModel){
+                if (setListData!=null&&!setListData.isEmpty()&&setListData.get(0)==position) {
+                    int poi = setListData.get(0);
+                    selectedMap.put(poi, data.get(poi));
+                    sMap.put(poi, true);
+                    ((MyViewHolder) holder).mTextItems.setTextColor(selectedTextColor);
+                    ((MyViewHolder) holder).mTextItems.setBackgroundResource(selectedDrawable);
+                    OldTextView = ((MyViewHolder) holder).mTextItems;
+                    Oldposition = position;
+                }
+            }
+
             ((MyViewHolder) holder).mTextItems.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -81,7 +99,7 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
                             }
                         }else if (SelectModel == SingelModel){ //单选
                             if (!isSelected) {
-                                if (selectedMap.size() > 0) {
+                                if (selectedMap.size() > 0&&OldTextView!=null) {
                                     OldTextView.setTextColor(defaultTextColor);
                                     OldTextView.setBackgroundResource(defauleDrawable);
                                     sMap.put(Oldposition, false);
@@ -114,12 +132,18 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView mTextItems;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            mTextItems = itemView.findViewById(R.id.mTextItems);
+            int id = itemView.getId();
+            View viewById = itemView.findViewById(id);
+            if (viewById instanceof TextView) {
+                mTextItems = (TextView) viewById;
+            } else {
+               throw new NullPointerException("xml根布局找不到TextView");
+            }
         }
     }
 
+    //设置数据
     public void setDataList(List<String> dataList){
-        //设置数据
         if (this.data == null) {
             this.data = new ArrayList<>();
         }
@@ -127,6 +151,31 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
+    //设置选中的数据
+    public void setSelectedData(List<Integer> dataList){
+        setListData = dataList;
+        //设置选择项
+        if (SelectModel == MulitModel) {
+            if (setListData != null && setListData.size()>0) {
+                selectedMap.clear();
+                sMap.clear();
+                for (int i = 0; i < setListData.size(); i++) {
+                    int poi = setListData.get(i);
+                    selectedMap.put(poi, data.get(poi));
+                }
+            }
+        }else if(SelectModel == SingelModel){
+            if (setListData != null && setListData.size()>0) {
+                selectedMap.clear();
+                sMap.clear();
+                OldTextView = null;
+                Oldposition = -1;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    //获取选中的数据
     public List<String> getSelectedData(){
         Collection<String> values = selectedMap.values();
         List<String> list = new ArrayList<>(values);
@@ -158,7 +207,9 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
     private int selectedDrawable;
     //设置是否可以选中
     private boolean checkEnable;
-    public void setFlexboxLayoutView(FlowLayout flexboxLayout){
+    //设置选中的集合数据
+    private List<Integer> setListData;
+    public void setFlexboxLayoutView(SmartFlexboxLayout flexboxLayout){
         if (flexboxLayout != null) {
             maxSelection = flexboxLayout.getMaxSelection();
             SelectModel = flexboxLayout.getSelectModel();

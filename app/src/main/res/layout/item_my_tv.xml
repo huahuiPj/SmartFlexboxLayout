@@ -8,8 +8,11 @@
     android:paddingRight="10dp"
     android:paddingTop="6dp"
     android:paddingBottom="6dp"
+    android:drawableLeft="@drawable/shape_show_text"
+    android:drawablePadding="5dp"
+    android:gravity="center_vertical"
     android:textSize="14sp"
-    android:textColor="#ff6600"
-    android:background="@drawable/selector_view"
+    android:textColor="#333333"
+    android:background="#ffffff"
     android:maxLines="1"
     android:text="item"/>
