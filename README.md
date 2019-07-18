@@ -12,17 +12,14 @@
 # 如何使用
 
 添加Gradle依赖<br/>
-1.先在项目根目录的 build.gradle 的 repositories 添加:
+1.先在项目根目录的 build.gradle 的 repositories 添加:<br/>
 
-  allprojects {
-
+    allprojects {
       repositories {
-
         ...
-
         maven { url 'https://jitpack.io' }
       }
-  }
+    }
 
 2、然后在dependencies添加：
 
@@ -71,7 +68,7 @@
             android:layout_height="wrap_content"
             app:checked_enable="false"/>
 
-4、支持属性：
+4、支持属性：<br/>
     ①default_color  默认时的字体颜色<br/>
     ②selected_textColor 选中时的字体颜色<br/>
     ③default_drawable 默认时样式<br/>
