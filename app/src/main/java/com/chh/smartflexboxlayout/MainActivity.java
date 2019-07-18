@@ -26,34 +26,33 @@ public class MainActivity extends AppCompatActivity {
 
         //多选
         final SmartFlexboxLayout mSmartFlexboxLayout_Mulit = findViewById(R.id.mSmartFlexboxLayout_Mulit);
-        mSmartFlexboxLayout_Mulit.setData(this,dataList);
-//        selectList.add(5);
-        mSmartFlexboxLayout_Mulit.setSelectedData(selectList);
+        mSmartFlexboxLayout_Mulit.setData(this,dataList);//设置数据源
+        mSmartFlexboxLayout_Mulit.setSelectedData(selectList);//设置预先选中的数据
         mSmartFlexboxLayout_Mulit.setListener(new setOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, boolean isCheck) {
-                Log.d("chh","selectedData onItemClick position:"+ position +" isCheck:"+isCheck);
+                Log.d("TAG","onItemClick:"+ position +" isCheck:"+isCheck);
             }
         });
 
         //单选
         final SmartFlexboxLayout mSmartFlexboxLayout_singer = findViewById(R.id.mSmartFlexboxLayout_singer);
-        mSmartFlexboxLayout_singer.setData(this,dataList);
-        mSmartFlexboxLayout_singer.setSelectedData(selectList);
+        mSmartFlexboxLayout_singer.setData(this,dataList);//设置数据源
+        mSmartFlexboxLayout_singer.setSelectedData(selectList);//设置预先选中的数据
         mSmartFlexboxLayout_singer.setListener(new setOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, boolean isCheck) {
-                Log.d("chh","selectedData onItemClick position:"+ position +" isCheck:"+isCheck);
+                Log.d("TAG","onItemClick:"+ position +" isCheck:"+isCheck);
             }
         });
 
-        //只显示
+        //只展示
         final SmartFlexboxLayout mSmartFlexboxLayout_onlyShow = findViewById(R.id.mSmartFlexboxLayout_onlyShow);
-        mSmartFlexboxLayout_onlyShow.setData(this,R.layout.item_my_tv,dataList);
+        mSmartFlexboxLayout_onlyShow.setData(this,R.layout.item_my_tv,dataList);//设置自定义条目及数据源
         mSmartFlexboxLayout_onlyShow.setListener(new setOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, boolean isCheck) {
-                Log.d("chh","selectedData onItemClick position:"+ position +" isCheck:"+isCheck);
+                Log.d("TAG","onItemClick:"+ position +" isCheck:"+isCheck);
             }
         });
 
@@ -62,22 +61,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 List<String> selectedData = mSmartFlexboxLayout_Mulit.getSelectedData();
-//                StringBuffer stringBuffer = new StringBuffer();
                 Toast.makeText(MainActivity.this,selectedData.toString(),Toast.LENGTH_LONG).show();
-                for (int i = 0; i < selectedData.size(); i++) {
-                    Log.d("chh","多选:"+ selectedData.get(i));
-                }
             }
         });
+
         Button mButtonSelectedSingle = findViewById(R.id.mButtonSelectedSingle);
         mButtonSelectedSingle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<String> selectedData = mSmartFlexboxLayout_singer.getSelectedData();
                 Toast.makeText(MainActivity.this,selectedData.toString(),Toast.LENGTH_LONG).show();
-                for (int i = 0; i < selectedData.size(); i++) {
-                    Log.d("chh","单选:"+ selectedData.get(i));
-                }
             }
         });
     }

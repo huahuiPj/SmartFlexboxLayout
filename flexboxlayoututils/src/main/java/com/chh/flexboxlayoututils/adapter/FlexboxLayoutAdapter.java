@@ -1,6 +1,7 @@
 package com.chh.flexboxlayoututils.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chh.flexboxlayoututils.R;
 import com.chh.flexboxlayoututils.interfaces.setOnItemClickListener;
 import com.chh.flexboxlayoututils.widget.SmartFlexboxLayout;
 
