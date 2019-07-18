@@ -2,21 +2,24 @@
 本库是基于RecycleView和FlexboxLayout的封装，提供了标签列表的多选，单选，和只展示标签列表的功能。
 
 # 特性
-1、使用简单，只需几行代码就可以使用本库
-2、自定义性强，默认选择时和选中状态时，字体颜色，大小，背景色都可以自定义，如果还不满足你的需求，可以重写item的layout
-3、支持单选、多选、和只用于展示使用，多选支持选择数量
-4、支持setListener，当点击或选择时回调
-5、支持设置预选列表 setSelectedData(List<Integer>)
-6、支持获取选中数据的列表 getSelectedData()
+1、使用简单，只需几行代码就可以使用本库<br/>
+2、自定义性强，默认选择时和选中状态时，字体颜色，大小，背景色都可以自定义，如果还不满足你的需求，可以重写item的layout<br/>
+3、支持单选、多选、和只用于展示使用，多选支持选择数量<br/>
+4、支持setListener，当点击或选择时回调<br/>
+5、支持设置预选列表 setSelectedData(List<Integer>)<br/>
+6、支持获取选中数据的列表 getSelectedData()<br/>
 
 # 如何使用
 
-添加Gradle依赖
+添加Gradle依赖<br/>
 1.先在项目根目录的 build.gradle 的 repositories 添加:
 
   allprojects {
+
       repositories {
+
         ...
+
         maven { url 'https://jitpack.io' }
       }
   }
@@ -33,6 +36,7 @@
     }
 
 3、布局文件中声明：
+
     多选布局：
     <com.chh.flexboxlayoututils.widget.SmartFlexboxLayout
             android:id="@+id/mSmartFlexboxLayout_Mulit"
@@ -68,14 +72,14 @@
             app:checked_enable="false"/>
 
 4、支持属性：
-    ①default_color  默认时的字体颜色
-    ②selected_textColor 选中时的字体颜色
-    ③default_drawable 默认时样式
-    ④selected_drawable 选中时的样式
-    ⑤text_size 字体大小
-    ⑥checked_enable 设置是否可以选中
-    ⑦mode 选择类型  单选：Single    多选：Mulit
-    ⑧max_num 多选时生效 最大选择数量
+    ①default_color  默认时的字体颜色<br/>
+    ②selected_textColor 选中时的字体颜色<br/>
+    ③default_drawable 默认时样式<br/>
+    ④selected_drawable 选中时的样式<br/>
+    ⑤text_size 字体大小<br/>
+    ⑥checked_enable 设置是否可以选中<br/>
+    ⑦mode 选择类型  单选：Single    多选：Mulit<br/>
+    ⑧max_num 多选时生效 最大选择数量<br/>
 
 5、事件 - 选择标签时的回调
 
