@@ -100,6 +100,7 @@
     mSmartFlexboxLayout_onlyShow.setData(Context,layoutRes,List<String>);
 
 注意：自定义条目布局时，根布局为TextView ，如下所示：
+
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mTextItems"
         android:layout_width="wrap_content"
