@@ -9,6 +9,11 @@
 5、支持设置预选列表 setSelectedData(List<Integer>)<br/>
 6、支持获取选中数据的列表 getSelectedData()<br/>
 
+# 效果图
+
+    ![image](https://github.com/huahuiPj/SmartFlexboxLayout/blob/master/picture_20190718174448.jpg)
+
+
 # 如何使用
 
 ## 添加Gradle依赖<br/>
