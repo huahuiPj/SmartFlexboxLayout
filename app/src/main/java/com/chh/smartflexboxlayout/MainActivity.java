@@ -7,7 +7,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
+import com.chh.flexboxlayoututils.interfaces.setOnItemCheckListener;
 import com.chh.flexboxlayoututils.interfaces.setOnItemClickListener;
 import com.chh.flexboxlayoututils.widget.SmartFlexboxLayout;
 
@@ -56,6 +59,48 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //单选-tab-垂直
+        final SmartFlexboxLayout mSmartFlexboxLayout_singerTabVertical = findViewById(R.id.mSmartFlexboxLayout_singerTabVertical);
+        selectList.clear();selectList.add(0);
+        mSmartFlexboxLayout_singerTabVertical.setData(this,R.layout.item_single_tab_view,dataList);//设置数据源
+        mSmartFlexboxLayout_singerTabVertical.setSelectedData(selectList);//设置预先选中的数据
+        mSmartFlexboxLayout_singerTabVertical.setListener(new setOnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position, boolean isCheck) {
+                Log.d("TAG","onItemClick:"+ position +" isCheck:"+isCheck);
+            }
+        });
+        //单选-tab-水平
+        final SmartFlexboxLayout mSmartFlexboxLayout_singerTabHorizontal = findViewById(R.id.mSmartFlexboxLayout_singerTabHorizontal);
+        selectList.clear();selectList.add(0);
+        mSmartFlexboxLayout_singerTabHorizontal.setData(this,R.layout.item_single_tab_h_view,dataList);//设置数据源
+        mSmartFlexboxLayout_singerTabHorizontal.setSelectedData(selectList);//设置预先选中的数据
+        mSmartFlexboxLayout_singerTabHorizontal.setListener(new setOnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position, boolean isCheck) {
+//                Log.d("TAG","onItemClick:"+ position +" isCheck:"+isCheck);
+            }
+        });
+        //绑定ViewPager
+        ViewPager mViewPager = findViewById(R.id.mViewPager);
+        List<Fragment> fList = new ArrayList<>();
+        fList.add(new FirstFragmentFragment());
+        fList.add(new FirstFragmentFragment());
+        fList.add(new FirstFragmentFragment());
+        mSmartFlexboxLayout_singerTabHorizontal.bindPagerAdapter(mViewPager,getSupportFragmentManager(),fList);
+        mSmartFlexboxLayout_singerTabVertical.bindPagerAdapter(mViewPager,getSupportFragmentManager(),fList);
+
+        /*mSmartFlexboxLayout_singerTabVertical.setCheckedListener(new setOnItemCheckListener() {
+            @Override
+            public void onChecked(int position, View view) {
+                Log.d("TAG","onChecked position:"+ position);
+            }
+            @Override
+            public void unChecked(int position, View view) {
+                Log.d("TAG","unChecked position:"+ position);
+            }
+        });*/
+
         Button mButtonSelectedMulit = findViewById(R.id.mButtonSelectedMulit);
         mButtonSelectedMulit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setData(){
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             if (i%3==0) {
                 dataList.add("大西瓜" + i);
             } else if(i%4==0){

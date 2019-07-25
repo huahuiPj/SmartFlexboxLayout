@@ -1,8 +1,6 @@
 package com.chh.flexboxlayoututils.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chh.flexboxlayoututils.R;
+import com.chh.flexboxlayoututils.interfaces.setOnItemCheckListener;
 import com.chh.flexboxlayoututils.interfaces.setOnItemClickListener;
 import com.chh.flexboxlayoututils.widget.SmartFlexboxLayout;
+import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,32 +46,47 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
         if(data!=null&&data.size()>0){
-            ((MyViewHolder) holder).mTextItems.setText(data.get(position));
-            if(defaultTextColor!=0){
-                ((MyViewHolder) holder).mTextItems.setTextColor(defaultTextColor);
-            }
-            if(defauleDrawable!=0){
-                ((MyViewHolder) holder).mTextItems.setBackgroundResource(defauleDrawable);
-            }
-            if(textsize!=0){
-                ((MyViewHolder) holder).mTextItems.setTextSize(TypedValue.COMPLEX_UNIT_PX,textsize);
-            }
+            TextView mTextItems = ((MyViewHolder) holder).mTextItems;
+            mTextItems.setText(data.get(position));
+
+            setTextColor(mTextItems,defaultTextColor);
+            setBackgroundRes(mTextItems,defauleDrawable);
+            setTextSize(mTextItems,textsize);
+
             sMap.put(position,false);
             if (SelectModel == MulitModel) {
-                if (selectedMap.containsKey(position)){
+                if (selectedMap.containsKey(position)) {
                     sMap.put(position, true);
-                    ((MyViewHolder) holder).mTextItems.setTextColor(selectedTextColor);
-                    ((MyViewHolder) holder).mTextItems.setBackgroundResource(selectedDrawable);
+                    setTextColor(mTextItems, selectedTextColor);
+                    setBackgroundRes(mTextItems, selectedDrawable);
+                    //设置选中监听
+                    if (checkListener!=null) {
+                        checkListener.onChecked(position, mTextItems);
+                    }
+                } else {
+                    //设置取消选中/默认监听
+                    if (checkListener!=null) {
+                        checkListener.unChecked(position,mTextItems);
+                    }
                 }
             }else if(SelectModel == SingelModel){
-                if (setListData!=null&&!setListData.isEmpty()&&setListData.get(0)==position) {
+                if (setListData != null && !setListData.isEmpty() && setListData.get(0) == position) {
                     int poi = setListData.get(0);
                     selectedMap.put(poi, data.get(poi));
                     sMap.put(poi, true);
-                    ((MyViewHolder) holder).mTextItems.setTextColor(selectedTextColor);
-                    ((MyViewHolder) holder).mTextItems.setBackgroundResource(selectedDrawable);
+                    setTextColor(mTextItems, selectedTextColor);
+                    setBackgroundRes(mTextItems, selectedDrawable);
                     OldTextView = ((MyViewHolder) holder).mTextItems;
                     Oldposition = position;
+                    //设置选中监听
+                    if (checkListener!=null) {
+                        checkListener.onChecked(position, mTextItems);
+                    }
+                } else {
+                    //设置取消选中/默认监听
+                    if (checkListener!=null) {
+                        checkListener.unChecked(position,mTextItems);
+                    }
                 }
             }
 
@@ -85,14 +99,14 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
                         boolean isSelected = sMap.get(position);
                         if (SelectModel == MulitModel) { //多选
                             if (isSelected) {
-                                textView.setTextColor(defaultTextColor);
-                                textView.setBackgroundResource(defauleDrawable);
+                                setTextColor(textView,defaultTextColor);
+                                setBackgroundRes(textView,defauleDrawable);
                                 sMap.put(position, false);
                                 selectedMap.remove(position);
                             } else {
                                 if (selectedMap.size() < maxSelection) {
-                                    textView.setTextColor(selectedTextColor);
-                                    textView.setBackgroundResource(selectedDrawable);
+                                    setTextColor(textView,selectedTextColor);
+                                    setBackgroundRes(textView,selectedDrawable);
                                     sMap.put(position, true);
                                     selectedMap.put(position, str);
                                 } else {
@@ -101,14 +115,22 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
                             }
                         }else if (SelectModel == SingelModel){ //单选
                             if (!isSelected) {
-                                if (selectedMap.size() > 0&&OldTextView!=null) {
-                                    OldTextView.setTextColor(defaultTextColor);
-                                    OldTextView.setBackgroundResource(defauleDrawable);
+                                if (selectedMap.size() > 0&&OldTextView!=null&&Oldposition!=-1) {
+                                    setTextColor(OldTextView,defaultTextColor);
+                                    setBackgroundRes(OldTextView,defauleDrawable);
                                     sMap.put(Oldposition, false);
                                     selectedMap.remove(Oldposition);
+                                    //设置取消选中监听
+                                    if (checkListener!=null) {
+                                        checkListener.unChecked(Oldposition,OldTextView);
+                                    }
                                 }
-                                textView.setTextColor(selectedTextColor);
-                                textView.setBackgroundResource(selectedDrawable);
+                                setTextColor(textView,selectedTextColor);
+                                setBackgroundRes(textView,selectedDrawable);
+                                //设置选中监听
+                                if (checkListener!=null) {
+                                    checkListener.onChecked(position,textView);
+                                }
                                 sMap.put(position, true);
                                 selectedMap.put(position, str);
 
@@ -141,6 +163,16 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else {
                throw new NullPointerException("xml根布局找不到TextView");
             }
+            ViewGroup.LayoutParams lp = viewById.getLayoutParams();
+            if (lp instanceof FlexboxLayoutManager.LayoutParams) {
+                FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;
+                if (lineFeed) {
+
+                } else {
+                    flexboxLp.setFlexShrink(0f);
+                    flexboxLp.setFlexGrow(1);
+                }
+            }
         }
     }
 
@@ -153,7 +185,7 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
-    //设置选中的数据
+    //设置选中的数据-在最开始加载的时候
     public void setSelectedData(List<Integer> dataList){
         setListData = dataList;
         //设置选择项
@@ -184,9 +216,16 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
         return list;
     }
 
+    //点击事件的监听
     private setOnItemClickListener clickListener;
     public void setListener(setOnItemClickListener clickListener){
         this.clickListener = clickListener;
+    }
+
+    //选择和取消事件的监听(只用于单选)
+    private setOnItemCheckListener checkListener;
+    public void setCheckedListener(setOnItemCheckListener checkedListener){
+        this.checkListener = checkedListener;
     }
 
     //可选的最大数量
@@ -211,6 +250,8 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
     private boolean checkEnable;
     //设置选中的集合数据
     private List<Integer> setListData;
+    //设置是否换行
+    private boolean lineFeed;
     public void setFlexboxLayoutView(SmartFlexboxLayout flexboxLayout){
         if (flexboxLayout != null) {
             maxSelection = flexboxLayout.getMaxSelection();
@@ -221,6 +262,7 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
             selectedDrawable =flexboxLayout.getSelectedDrawable();
             textsize = flexboxLayout.getTextsize();
             checkEnable = flexboxLayout.isCheckEnable();
+            lineFeed = flexboxLayout.isLineFeed();
             if (SelectModel==SingelModel) {
                 maxSelection = 1;
             } else if (SelectModel==MulitModel&&maxSelection==0) {
@@ -228,6 +270,28 @@ public class FlexboxLayoutAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
         } else {
             throw new NullPointerException("SmartFlexboxLayout 未初始化");
+        }
+    }
+
+
+    //设置字体颜色
+    private void setTextColor(TextView textView,int res){
+        if (textView!=null&&res!=0) {
+            textView.setTextColor(res);
+        }
+    }
+
+    //设置字体大小
+    private void setTextSize(TextView textView,float textsize){
+        if (textView!=null&&textsize!=0) {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,textsize);
+        }
+    }
+
+    //设置背景
+    private void setBackgroundRes(TextView textView,int res){
+        if (textView!=null&&res!=0) {
+            textView.setBackgroundResource(res);
         }
     }
 }

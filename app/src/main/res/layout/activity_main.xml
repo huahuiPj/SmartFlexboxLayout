@@ -5,17 +5,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <Button
+        android:visibility="gone"
         android:id="@+id/mButtonSelectedMulit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="多选获取选中的数据"/>
     <Button
+        android:visibility="gone"
         android:id="@+id/mButtonSelectedSingle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="单选获取选中的数据"/>
+    <!--多选流标签-->
     <com.chh.flexboxlayoututils.widget.SmartFlexboxLayout
         android:id="@+id/mSmartFlexboxLayout_Mulit"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:default_color="#555555"
@@ -26,8 +30,10 @@
         app:checked_enable="true"
         app:mode="Mulit"
         app:max_num="3"/>
+    <!--单选流标签-->
     <com.chh.flexboxlayoututils.widget.SmartFlexboxLayout
         android:id="@+id/mSmartFlexboxLayout_singer"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -38,10 +44,49 @@
         app:text_size="14sp"
         app:checked_enable="true"
         app:mode="Singer"/>
+    <!--只用于展示的流标签-->
     <com.chh.flexboxlayoututils.widget.SmartFlexboxLayout
         android:id="@+id/mSmartFlexboxLayout_onlyShow"
+        android:visibility="gone"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:checked_enable="false"/>
+    <!--垂直的Tab-->
+    <com.chh.flexboxlayoututils.widget.SmartFlexboxLayout
+        android:id="@+id/mSmartFlexboxLayout_singerTabVertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#eaeaea"
+        android:layout_marginTop="20dp"
+        app:default_color="#333333"
+        app:selected_textColor="#f00"
+        app:default_drawable="@drawable/layer_tab_v_default"
+        app:selected_drawable="@drawable/layer_tab_v_select"
+        app:divider="@drawable/shape_divider"
+        app:text_size="14sp"
+        app:checked_enable="true"
+        app:mode="Singer"
+        app:line_feed="false"
+        app:orientation="Vertical"/>
+    <!--水平的Tab-->
+    <com.chh.flexboxlayoututils.widget.SmartFlexboxLayout
+        android:id="@+id/mSmartFlexboxLayout_singerTabHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:layout_marginTop="20dp"
+        app:default_color="#333333"
+        app:selected_textColor="#f00"
+        app:default_drawable="@drawable/layer_tab_h_default"
+        app:selected_drawable="@drawable/layer_tab_h_select"
+        app:text_size="14sp"
+        app:checked_enable="true"
+        app:mode="Singer"
+        app:line_feed="false"
+        app:orientation="Horizontal"/>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/mViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -8,10 +8,12 @@
 4、支持setListener，当点击或选择时回调<br/>
 5、支持设置预选列表 setSelectedData(List<Integer>)<br/>
 6、支持获取选中数据的列表 getSelectedData()<br/>
+7、支持顶部导航栏和垂直导航栏，支持绑定ViewPager
 
 # 效果图
 
-<img src="img/picture_20190718174448.jpg" width="480px"/>
+<img src="img/picture_20190718174448.jpg" width="360px"/>
+<img src="img/gif1.mp4" width="360px"/>
 
 # 如何使用
 
@@ -72,15 +74,55 @@
             android:layout_height="wrap_content"
             app:checked_enable="false"/>
 
+    垂直导航栏布局展示：
+    <com.chh.flexboxlayoututils.widget.SmartFlexboxLayout
+            android:id="@+id/mSmartFlexboxLayout_singerTabVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#eaeaea"
+            android:layout_marginTop="20dp"
+            app:default_color="#333333"
+            app:selected_textColor="#f00"
+            app:default_drawable="@drawable/layer_tab_v_default"
+            app:selected_drawable="@drawable/layer_tab_v_select"
+            app:divider="@drawable/shape_divider"
+            app:text_size="14sp"
+            app:checked_enable="true"
+            app:mode="Singer"
+            app:line_feed="false"        //true：换行    false：不换行
+            app:orientation="Vertical"/>
+
+    水平导航栏布局展示
+    <com.chh.flexboxlayoututils.widget.SmartFlexboxLayout
+            android:id="@+id/mSmartFlexboxLayout_singerTabHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:layout_marginTop="20dp"
+            app:default_color="#333333"
+            app:selected_textColor="#f00"
+            app:default_drawable="@drawable/layer_tab_h_default"
+            app:selected_drawable="@drawable/layer_tab_h_select"
+            app:text_size="14sp"
+            app:checked_enable="true"
+            app:mode="Singer"
+            app:line_feed="false"          //true：换行    false：不换行
+            app:orientation="Horizontal"/>
+
 #### 4、支持属性：<br/>
 * default_color        默认时的字体颜色
 * selected_textColor   选中时的字体颜色
 * default_drawable     默认时样式
 * selected_drawable    选中时的样式
 * text_size            字体大小
-* checked_enable       设置是否可以选中
-* mode                 选择类型  单选：Singer    多选：Mulit
-* max_num              多选时生效 最大选择数量
+* checked_enable       设置是否可以选中  （默认根据选择模式：单选模式-false  多选模式-true）
+* mode                 选择类型  单选：Singer    多选：Mulit （默认多选）
+* max_num              多选时生效 最大选择数量 (默认单选为1  多选为1)
+*line_feed             是否换行  true：换行    false：不换行 (默认换行)
+*divider               分隔线  （默认无）
+*orientation           布局方向  水平方向：Horizontal   垂直方向：Vertical   （默认水平方向）
+
+
 
 #### 5、事件 - 选择标签时的回调
 
@@ -107,7 +149,7 @@
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mTextItems"
-        android:layout_width="wrap_content"
+        android:layout_width="wrap_content"          //要实现水平导航栏item宽度相等时要设置权重（android:layout_width="0dp"  android:layout_weight="1" ）     否则不用设置
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:paddingLeft="10dp"
@@ -158,3 +200,11 @@
             Log.d("TAG","onItemClick:"+ position +" isCheck:"+isCheck);
         }
     });
+
+
+    //导航栏绑定ViewPager
+    ViewPager mViewPager = findViewById(R.id.mViewPager);
+    List<Fragment> fList = new ArrayList<>();
+    fList.add(new FirstFragmentFragment());
+    fList.add(new SecondFragmentFragment());
+    mSmartFlexboxLayout.bindPagerAdapter(mViewPager,getSupportFragmentManager(),fList);

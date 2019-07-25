@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SmartFlexboxLayout">
-        <attr name="default_color" format="color|reference"/>
-        <attr name="selected_textColor" format="color|reference"/>
-        <attr name="default_drawable" format="reference"/>
-        <attr name="selected_drawable" format="reference"/>
-        <attr name="text_size" format="dimension"/>
-        <attr name="max_num" format="integer"/>
-        <attr name="checked_enable" format="boolean"/>
-        <attr name="mode">
+        <attr name="default_color" format="color|reference"/><!--默认字体颜色-->
+        <attr name="selected_textColor" format="color|reference"/><!--选中的字体颜色-->
+        <attr name="default_drawable" format="reference"/><!--默认背景-->
+        <attr name="selected_drawable" format="reference"/><!--选中的背景-->
+        <attr name="text_size" format="dimension"/><!--字体大小-->
+        <attr name="max_num" format="integer"/><!--最大选择数量-->
+        <attr name="checked_enable" format="boolean"/><!--设置是否可选 默认根据mode模式 多选为true  单选为false-->
+        <attr name="mode"><!--选择模式 默认多选-->
             <enum name="Mulit" value="0"/>
             <enum name="Singer" value="1"/>
         </attr>
+        <attr name="orientation" format="integer"><!--布局方向 默认水平方向-->
+            <enum name="Horizontal" value="0"/>
+            <enum name="Vertical" value="1"/>
+        </attr>
+        <attr name="divider" format="reference"/><!--分隔线 默认无-->
+        <attr name="line_feed" format="boolean"/><!--换行 默认换行-->
     </declare-styleable>
 </resources>
