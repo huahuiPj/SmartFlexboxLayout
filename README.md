@@ -13,7 +13,7 @@
 # 效果图
 
 <img src="img/picture_20190718174448.jpg" width="360px"/>
-<img src="img/gif1.mp4" width="360px"/>
+<img src="img/gif.gif" width="360px"/>
 
 # 如何使用
 
