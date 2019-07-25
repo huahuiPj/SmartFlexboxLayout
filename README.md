@@ -1,5 +1,5 @@
 # SmartFlexboxLayout
-本库是基于RecycleView和FlexboxLayout的封装，提供了标签列表的多选，单选，和只展示标签列表的功能。
+本库是基于RecycleView和FlexboxLayout的封装，提供了标签列表的多选，单选，和只用于列表标签展示，水平及垂直导航栏（支持绑定ViewPager）等的功能。
 
 # 特性
 1、使用简单，只需几行代码就可以使用本库<br/>
@@ -12,8 +12,8 @@
 
 # 效果图
 
-<img src="img/picture_20190718174448.jpg" width="360px"/>
-<img src="img/gif.gif" width="360px"/>
+<img src="img/picture_20190718174448.jpg" width="360px"/>  <img src="img/gif.gif" width="360px"/>
+
 
 # 如何使用
 
